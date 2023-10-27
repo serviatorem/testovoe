@@ -1,0 +1,41 @@
+* {
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: adpval(320, 1210, 1400);
+  padding: 0 5px;
+  margin: 0 auto;
+}
+
+.h2 {
+  font-size: adpval(28, 36);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 52.2px;
+  letter-spacing: 2.52px;
+  color: $violet;
+}
+
+.h3 {
+  font-size: adpval(24, 32);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 145%;
+  color: $violet;
+}
+.text{
+  font-size: adpval(18, 20);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 145%;
+  color: $darkGrey;
+}
+.text-mini{
+  font-size: adpval(14, 16);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 145%;
+  color: $darkGrey;
+}
