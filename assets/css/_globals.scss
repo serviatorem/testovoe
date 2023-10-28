@@ -1,3 +1,5 @@
+@import "variables";
+@import "functions";
 * {
   font-family: "Roboto", sans-serif;
   scroll-behavior: smooth;
@@ -38,4 +40,7 @@
   font-weight: 400;
   line-height: 145%;
   color: $darkGrey;
+}
+.error{
+  color:red;
 }
