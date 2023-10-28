@@ -46,7 +46,7 @@ watch([() => store.dateStart,()=> store.dateEnd], ()=>{
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  grid-template-columns: repeat(2,30%);
+  grid-template-columns: repeat(2,1fr);
 
   &__tabs {
     display: grid;
@@ -71,6 +71,14 @@ watch([() => store.dateStart,()=> store.dateEnd], ()=>{
       -moz-box-shadow: 0 5px 10px 1px $shadow;
       box-shadow: 0 5px 10px 1px $shadow;
     }
+  }
+}
+@media screen and (width < 700px){
+  .settings{
+    align-self: center;
+    grid-template-columns: 1fr;
+    gap:30px 0;
+    align-items: center;
   }
 }
 </style>
