@@ -2,89 +2,83 @@ import {defineStore} from 'pinia'
 import type {IVariables} from "~/interfaces/IVariables";
 import {useAPI} from "~/API/useAPI";
 import type {IMetric} from "~/interfaces/IMetric";
-
 export const useMetricStore = defineStore('metric', () => {
     const dateMax = ref<string>(new Date().toJSON().slice(0, 10));
     const dateStart = ref<string>(dateMax.value.slice(0,8) + '01');
     const dateEnd = ref<string>(dateMax.value);
-    const table = ref<boolean>(true);
-    const general = ref<boolean>(true);
-    const search = ref<boolean>(false);
     const useAPIStore = useAPI();
     const variables = ref<IVariables>({
         input: {
-            dateStart: dateStart.value,
-            dateEnd: dateEnd.value
+            dateStart: '',
+            dateEnd: ''
         }
     })
     async function getMetrics(){
-        const data = await useAPIStore.getMetrics(variables.value).then(data => data)
-        if (data.error.value){
-            return false
-        }else{
-            return data.data.value.metrics
-        }
-    }
-    async function getNewMetric(){
         variables.value.input.dateStart = dateStart.value
         variables.value.input.dateEnd = dateEnd.value
-        return await getMetrics()
+        const data = await useAPIStore.getMetrics(variables.value).then(data => data);
+        return data.error.value ? 'неправильная дата': data.data.value.metrics
     }
     async function getDefaultMetric(){
         dateStart.value = dateMax.value.slice(0,8) + '01'
         dateEnd.value = dateMax.value
-        variables.value.input.dateStart = dateStart.value
-        variables.value.input.dateEnd = dateEnd.value
         return await getMetrics()
     }
-    function getMetricDeviceByDate(data:Array<IMetric>, device:string,date:string){
+    async function validateMetric(metricNewStore:[IMetric] | string){
+        if (typeof metricNewStore === "string"){
+            const metric = await getDefaultMetric()
+          return {
+              metric:metric,
+              errorText:metricNewStore
+          }
+        }else{
+          return {
+              metric:metricNewStore,
+              errorText:''
+          }
+        }
+    }
+    async function newDate(newDateStart:string,newDateEnd:string){
+        dateStart.value = newDateStart
+        dateEnd.value = newDateEnd
+    }
+    function getMetricDeviceByDate(data:[IMetric], device:string,date:string){
         return data.filter((item)=> item.device === device && item.visitTime.slice(0,10) === date).length
     }
-    function getMetricDate(data:Array<IMetric>){
+    function getMetricAllDevice(data:[IMetric],device:string){
+        return data.filter((item) => item.device === device).length
+    }
+    function getMetricDate(data:[IMetric]){
         const allDate = new Set();
         data.forEach((item)=>{ allDate.add(item.visitTime.slice(0,10))})
         return allDate
     }
-    function getMetricByDate(data:Array<IMetric>,date:string){
+    function getMetricUserByDate(data:[IMetric],date:string){
         return data.filter((item) => item.visitTime.slice(0,10) === date).length
     }
-    function switchGraphics(){
-        table.value = false
+    function getMetricAllUser(data:[IMetric]){
+        return data.length
     }
-    function switchTable(){
-        table.value = true
+    function getMetricNewUserByDate(data:[IMetric],date:string){
+        return data.filter((item) => item.visitTime.slice(0,10) === date && item.isNew).length
     }
-    function switchGeneral(){
-        general.value = true
-    }
-    function switchDevice(){
-        general.value = false
-    }
-    function switchToSearch(){
-        search.value = true
-    }
-    function switchAfterSearch(){
-        search.value = false
+    function getMetricAllNewUser(data:[IMetric]){
+        return data.filter((item)=>item.isNew).length
     }
     return {
         dateMax,
         dateStart,
         dateEnd,
-        table,
         variables,
-        general,
-        search,
         getMetrics,
-        getNewMetric,
-        getDefaultMetric,
+        validateMetric,
+        newDate,
         getMetricDeviceByDate,
-        switchGraphics,
-        switchTable,
+        getMetricAllDevice,
         getMetricDate,
-        getMetricByDate,
-        switchGeneral,
-        switchDevice,
-        switchToSearch,
-        switchAfterSearch
+        getMetricUserByDate,
+        getMetricAllUser,
+        getMetricNewUserByDate,
+        getMetricAllNewUser
     }
 })
