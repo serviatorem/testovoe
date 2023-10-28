@@ -25,6 +25,7 @@ const value = ref(props.modelValue);
 }
 .input{
   border-radius: 5px;
+  width: fit-content;
   padding: 5px 10px;
 }
 </style>
