@@ -10,5 +10,7 @@ import SectionTableGeneral from "~/components/section/table/SectionTableGeneral.
 </template>
 
 <style scoped lang="scss">
-
+  .table-general{
+    overflow-x: auto;
+  }
 </style>

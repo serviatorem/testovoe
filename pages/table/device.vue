@@ -10,5 +10,7 @@ import SectionTableDevice from "~/components/section/table/SectionTableDevice.vu
 </template>
 
 <style scoped lang="scss">
-
+  .table-device{
+    overflow-x: auto;
+  }
 </style>
