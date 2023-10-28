@@ -14,7 +14,7 @@ import TheHeader from '~/components/header/TheHeader.vue'
 <style scoped lang="scss">
 .layout-default {
   width: 100dvw;
-  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   flex-direction: column;
