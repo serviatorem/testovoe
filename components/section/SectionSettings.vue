@@ -5,36 +5,37 @@ import {useMetricStore} from "~/store/store";
 import {storeToRefs} from "pinia";
 
 const store = useMetricStore()
-const { dateMax, dateStart, dateEnd, table } = storeToRefs(store)
-
+const { dateMax, dateStart, dateEnd } = storeToRefs(store)
+const newDateStart = ref(dateStart.value);
+const newDateEnd = ref(dateEnd.value);
+watch([() => store.dateStart,()=> store.dateEnd], ()=>{
+    newDateStart.value = store.dateStart;
+    newDateEnd.value = store.dateEnd;
+})
 </script>
 
 <template>
   <section class="settings">
     <div class="settings__tabs">
-      <BaseTab @click="store.switchTable()">
+      <NuxtLink to="/table/">
+        <BaseTab>
         Таблица
       </BaseTab>
+      </NuxtLink>
 
-      <BaseTab @click="store.switchGraphics()">
+      <NuxtLink to="/graph">
+        <BaseTab>
         Графики
       </BaseTab>
+      </NuxtLink>
     </div>
     <div class="settings__filter">
-      <BaseInputDate :dateMax="dateEnd" v-model="dateStart" text="Начало" />
-      <BaseInputDate :dateMax="dateMax.slice(0,10)" :dateMin="dateStart" v-model="dateEnd" text="Конец" />
+      <BaseInputDate :dateMax="newDateEnd" v-model="newDateStart" text="Начало" />
+      <BaseInputDate :dateMax="dateMax.slice(0,10)" :dateMin="newDateStart" v-model="newDateEnd" text="Конец" />
+      <button class="settings__button text" @click="store.newDate(newDateStart,newDateEnd)">
+        Показать
+      </button>
     </div>
-    <div class="settings__tabs__table">
-      <BaseTab v-if="table" @click="store.switchGeneral()">
-        Общая
-      </BaseTab>
-      <BaseTab v-if="table" @click="store.switchDevice()">
-        Устройств
-      </BaseTab>
-    </div>
-    <button class="settings__button text" @click="store.switchToSearch()">
-      Показать
-    </button>
   </section>
 </template>
 
@@ -51,11 +52,6 @@ const { dateMax, dateStart, dateEnd, table } = storeToRefs(store)
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: adpval(15, 30);
-    &__table{
-      display: flex;
-      align-items: center;
-      gap: adpval(15, 30);
-    }
   }
 
   &__filter {
