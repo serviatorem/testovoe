@@ -2,26 +2,32 @@
 import {useMetricStore} from "~/store/store";
 import BaseTableItem from "~/components/base/BaseTableItem.vue";
 import type {IMetric} from "~/interfaces/IMetric";
+import BaseSpinner from "~/components/base/baseSpinner.vue";
 
 const store = useMetricStore()
-const metricsStore = ref<[IMetric] | string>(await store.getMetrics())
+const metricsStore = ref(await store.getMetrics())
 const dateStore = ref();
-// @ts-ignore
-dateStore.value = store.getMetricDate(metricsStore.value)
-
+if (metricsStore.value){
+  dateStore.value = store.getMetricDate(metricsStore.value)
+}
+const show = ref<boolean>(true)
 const error = ref('');
 watch([() => store.dateStart, () => store.dateEnd], async () => {
+  show.value = false;
   const metricNewStore = await store.getMetrics()
   const {errorText, metric} = await store.validateMetric(metricNewStore)
   error.value = errorText;
   metricsStore.value = metric;
-// @ts-ignore
-  dateStore.value = store.getMetricDate(metricsStore.value)
+  dateStore.value = metricsStore.value ? store.getMetricDate(metricsStore.value) : false
+  show.value = true;
 })
 </script>
 
 <template>
-  <section class="tableDevice">
+  <section
+      class="tableDevice"
+      v-if="show"
+  >
     <span class="text error">{{error}}</span>
     <h2 class="tableDevice__title h2">Таблица устройств</h2>
     <div class="tableDevice__header">
@@ -51,6 +57,7 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
       <BaseTableItem :text="store.getMetricAllDevice(metricsStore<IMetric>,'MOBILE')" border="top" />
     </div>
   </section>
+  <BaseSpinner v-if="!show"/>
 </template>
 
 <style scoped lang="scss">
@@ -58,6 +65,7 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
+  min-width: 1200px;
   &__title{
     margin-bottom: 30px;
   }
