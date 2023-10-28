@@ -5,25 +5,15 @@ const props = defineProps<{
   modelValue:string
   text?:string
 }>()
-const emit = defineEmits(['update:modelValue'])
-const error = ref<string>('')
+const modelValue = defineModel()
 const value = ref(props.modelValue);
-watch(value, () =>{
-  if (value.value){
-    error.value = ''
-    emit('update:modelValue',value.value)
-  }else{
-    error.value = 'неверный ввод данных'
-  }
-})
 </script>
 
 <template>
   <label class="label">
     <span class="label__text text">{{ props.text}}</span>
-    <input class="input text-mini" type="date" :max="props.dateMax" :min="props.dateMin" v-model="value"/>
+    <input class="input text-mini" type="date" :max="props.dateMax" :min="props.dateMin" v-model="modelValue"/>
   </label>
-  <span class="text-mini error">{{error}}</span>
 </template>
 
 <style scoped lang="scss">
