@@ -17,7 +17,11 @@ const props = defineProps<{
     padding: 10px;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid $violet;
+    background: rgba(255,255,255,0.5);
+    border: 2px solid $violet;
+    &__text{
+      color:$violet;
+    }
   }
   .right{
     border-right: none;
