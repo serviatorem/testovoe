@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     apollo: {
         clients: {
             default: {
-                httpEndpoint: 'http://test.order.mnogo.menu/graphql/'
+                httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
             }
         },
     },
@@ -41,10 +41,7 @@ export default defineNuxtConfig({
     build: {
         transpile: ['tslib']
     },
-    routeRules: {
-        '/table/general': {cors: false},
-        '/table/device': {cors: false},
-        '/graph/general': {cors: false},
-        '/graph/device': {cors: false},
+    proxy: {
+
     }
 })
