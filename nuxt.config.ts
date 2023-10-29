@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     apollo: {
         clients: {
             default: {
-                httpEndpoint: process.env.NODE_ENV === 'production' ? 'https://testovoe-tau.vercel.app/api' : 'http://localhost:3000/api',
+                httpEndpoint: process.env.NODE_ENV === 'production' ? process.env.GQL_PROXY_PROD : process.env.GQL_PROXY_DEV,
             }
         },
     },
@@ -42,6 +42,6 @@ export default defineNuxtConfig({
         transpile: ['tslib']
     },
     routeRules: {
-        '/api':{ proxy: 'http://test.order.mnogo.menu/graphql' }
+        '/api':{ proxy:  process.env.GQL_URL }
     }
 })
