@@ -23,6 +23,7 @@
     "@vee-validate/nuxt": "^4.11.8",
     "chart.js": "^4.4.0",
     "pinia": "^2.1.7",
+    "tslib": "^2.6.2",
     "vue-chartjs": "^5.2.0"
   }
 }

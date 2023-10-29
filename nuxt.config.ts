@@ -38,4 +38,7 @@ export default defineNuxtConfig({
         subsets:'cyrillic'
     },
     css: ['assets/css/reset.scss', 'assets/css/_globals.scss'],
+    build:{
+        transpile: ['tslib']
+    }
 })
