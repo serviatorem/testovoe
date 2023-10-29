@@ -21,7 +21,7 @@ export default defineNuxtConfig({
                 httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
                 httpLinkOptions: {
                     fetchOptions: {
-                        mode: 'cors'
+                        mode: 'no-cors'
                     }
                 }
             }
