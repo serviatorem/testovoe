@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     apollo: {
         clients: {
             default: {
-                httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
+                httpEndpoint: process.env.NODE_ENV === 'production' ? 'https://testovoe-tau.vercel.app/api' : 'http://localhost:3000/api',
             }
         },
     },
@@ -42,13 +42,6 @@ export default defineNuxtConfig({
         transpile: ['tslib']
     },
     routeRules: {
-        '/*':{ proxy: 'http://test.order.mnogo.menu/graphql' }
-    },
-    app:{
-        head:{
-            meta: [
-                {'http-equiv': 'Content-Security-Policy', 'content': 'upgrade-insecure-requests'}
-            ]
-        }
+        '/api':{ proxy: 'http://test.order.mnogo.menu/graphql' }
     }
 })
