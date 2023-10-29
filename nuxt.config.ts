@@ -19,6 +19,11 @@ export default defineNuxtConfig({
         clients: {
             default: {
                 httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
+                httpLinkOptions: {
+                    fetchOptions: {
+                        mode: 'cors'
+                    }
+                }
             }
         },
     },
@@ -40,8 +45,5 @@ export default defineNuxtConfig({
     css: ['assets/css/reset.scss', 'assets/css/_globals.scss'],
     build: {
         transpile: ['tslib']
-    },
-    proxy: {
-
     }
 })
