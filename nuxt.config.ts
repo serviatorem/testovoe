@@ -45,11 +45,5 @@ export default defineNuxtConfig({
     css: ['assets/css/reset.scss', 'assets/css/_globals.scss'],
     build: {
         transpile: ['tslib']
-    },
-    routeRules: {
-        '/table/general': {cors: true},
-        '/table/device': {cors: true},
-        '/graph/general': {cors: true},
-        '/graph/device': {cors: true},
     }
 })
