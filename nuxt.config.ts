@@ -21,8 +21,7 @@ export default defineNuxtConfig({
                 httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
                 httpLinkOptions: {
                     fetchOptions: {
-                        mode: 'no-cors',
-                        referrerPolicy: "unsafe_url"
+                        referrerPolicy: "unsafe-url"
                     }
                 }
             }
