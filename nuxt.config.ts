@@ -7,7 +7,7 @@ export default defineNuxtConfig({
         '@vee-validate/nuxt'
     ],
     devtools: {
-      enabled: true
+        enabled: true
     },
     vue: {
         defineModel: true
@@ -32,13 +32,19 @@ export default defineNuxtConfig({
         }
     },
     googleFonts: {
-        families:{
-            Roboto:true
+        families: {
+            Roboto: true
         },
-        subsets:'cyrillic'
+        subsets: 'cyrillic'
     },
     css: ['assets/css/reset.scss', 'assets/css/_globals.scss'],
-    build:{
+    build: {
         transpile: ['tslib']
+    },
+    routeRules: {
+        '/table/general': {cors: false},
+        '/table/device': {cors: false},
+        '/graph/general': {cors: false},
+        '/graph/device': {cors: false},
     }
 })
