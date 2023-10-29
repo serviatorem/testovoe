@@ -19,11 +19,6 @@ export default defineNuxtConfig({
         clients: {
             default: {
                 httpEndpoint: 'http://test.order.mnogo.menu/graphql/',
-                httpLinkOptions: {
-                    fetchOptions: {
-                        referrerPolicy: "unsafe-url"
-                    }
-                }
             }
         },
     },
@@ -45,5 +40,15 @@ export default defineNuxtConfig({
     css: ['assets/css/reset.scss', 'assets/css/_globals.scss'],
     build: {
         transpile: ['tslib']
+    },
+    routeRules: {
+        '/*':{ proxy: 'http://test.order.mnogo.menu/graphql' }
+    },
+    app:{
+        head:{
+            meta: [
+                {'http-equiv': 'Content-Security-Policy', 'content': 'upgrade-insecure-requests'}
+            ]
+        }
     }
 })
