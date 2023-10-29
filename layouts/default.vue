@@ -1,13 +1,5 @@
 <script setup lang="ts">
 import TheHeader from '~/components/header/TheHeader.vue'
-useHead({
-  meta : [
-    {
-      "http-equiv": "Content-Security-Policy",
-      content: "upgrade-insecure-requests"
-    }
-  ]
-})
 </script>
 
 <template>
