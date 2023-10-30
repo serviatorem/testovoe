@@ -44,7 +44,30 @@ export const useMetricStore = defineStore('metric', () => {
             }
         }
     }
-
+    async function getPrevMonthMetric(dateStore:[string]){
+        let dateStart = dateStore[0]
+        let dateEnd = dateStore[dateStore.length - 1]
+        if (+dateStart.slice(5,7) - 1 < 10){
+            dateStart = dateStart.replace(dateStart.slice(5,7), '0' + (+dateStart.slice(5,7) - 1), 1)
+        }else{
+            dateStart = dateStart.replace(dateStart.slice(5,7), +dateStart.slice(5,7) - 1, 1)
+        }
+        if (+dateEnd.slice(5,7) - 1 < 10){
+            dateEnd = dateEnd.replace(dateEnd.slice(5,7), '0' + (+dateEnd.slice(5,7) - 1), 1)
+        }else{
+            dateEnd = dateEnd.replace(dateEnd.slice(5,7), +dateEnd.slice(5,7) - 1, 1)
+        }
+        const variables = {
+            input: {
+                dateStart: dateStart,
+                dateEnd: dateEnd
+            }
+        }
+        const metricPrevStore = await useAPIStore.getMetrics(variables).then(data => data);
+        if (!metricPrevStore.error.value) {
+            return metricPrevStore.data.value.metrics.length
+        }
+    }
     async function newDate(newDateStart: string, newDateEnd: string) {
         dateStart.value = newDateStart
         dateEnd.value = newDateEnd
@@ -63,7 +86,7 @@ export const useMetricStore = defineStore('metric', () => {
         data.forEach((item) => {
             allDate.add(item.visitTime.slice(0, 10))
         })
-        return allDate
+        return Array.from(allDate)
     }
 
     function getMetricUserByDate(data: [IMetric], date: string) {
@@ -89,6 +112,7 @@ export const useMetricStore = defineStore('metric', () => {
         variables,
         getMetrics,
         validateMetric,
+        getPrevMonthMetric,
         newDate,
         getMetricDeviceByDate,
         getMetricAllDevice,

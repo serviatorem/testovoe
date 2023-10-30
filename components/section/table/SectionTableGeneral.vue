@@ -12,6 +12,8 @@ if (metricsStore.value) {
 }
 const show = ref<boolean>(true)
 const error = ref('');
+const prevMonth = ref(await store.getPrevMonthMetric(dateStore.value))
+const prevError = ref()
 watch([() => store.dateStart, () => store.dateEnd], async () => {
   show.value = false;
   const metricNewStore = await store.getMetrics()
@@ -19,8 +21,10 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
   error.value = errorText;
   metricsStore.value = metric;
   dateStore.value = metricsStore.value ? store.getMetricDate(metricsStore.value) : false
+  prevMonth.value = await store.getPrevMonthMetric(dateStore.value)
   show.value = true;
 })
+
 </script>
 
 <template>
@@ -29,9 +33,10 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
       v-if="show"
   >
     <span class="text error">{{ error }}</span>
+    <span class="text error">{{prevError}}</span>
     <div class="tableGeneral__title__wrapper">
       <h2 class="tableGeneral__title h2">Общая таблица</h2>
-
+      <span class="text"> По сравнению с пред. периодом: {{ metricsStore.length - prevMonth}}</span>
     </div>
     <div class="tableGeneral__header">
       <BaseTableItem text="Дата захода" border="right"/>
@@ -43,7 +48,6 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
           class="tableGeneral__body__item"
           v-for="date in dateStore"
       >
-
         <BaseTableItem :text="date" border="top | right"/>
         <BaseTableItem :text="store.getMetricUserByDate(metricsStore<IMetric>,date)" border="top | right"/>
         <BaseTableItem :text="store.getMetricNewUserByDate(metricsStore<IMetric>, date)" border="top"/>
@@ -63,7 +67,7 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  &__title {
+  &__title__wrapper {
     margin-bottom: 30px;
   }
 

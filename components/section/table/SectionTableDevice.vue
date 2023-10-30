@@ -7,11 +7,13 @@ import BaseSpinner from "~/components/base/baseSpinner.vue";
 const store = useMetricStore()
 const metricsStore = ref(await store.getMetrics())
 const dateStore = ref();
-if (metricsStore.value){
+if (metricsStore.value) {
   dateStore.value = store.getMetricDate(metricsStore.value)
 }
 const show = ref<boolean>(true)
 const error = ref('');
+const prevMonth = ref(await store.getPrevMonthMetric(dateStore.value))
+const prevError = ref()
 watch([() => store.dateStart, () => store.dateEnd], async () => {
   show.value = false;
   const metricNewStore = await store.getMetrics()
@@ -19,6 +21,7 @@ watch([() => store.dateStart, () => store.dateEnd], async () => {
   error.value = errorText;
   metricsStore.value = metric;
   dateStore.value = metricsStore.value ? store.getMetricDate(metricsStore.value) : false
+  prevMonth.value = await store.getPrevMonthMetric(dateStore.value)
   show.value = true;
 })
 </script>
