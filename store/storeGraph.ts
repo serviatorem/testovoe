@@ -14,7 +14,7 @@ export const useMetricGraphStore = defineStore('metricGraph', () => {
 
     async function createChartGlobal() {
         metricsStoreGraph.value = await store.getMetrics()
-        dateStoreGraph.value = Array.from(store.getMetricDate(metricsStoreGraph.value))
+        dateStoreGraph.value = store.getMetricDate(metricsStoreGraph.value)
         chartData.value = {
             labels: dateStoreGraph.value.map((item) => item.slice(5)),
             datasets: [
@@ -40,7 +40,7 @@ export const useMetricGraphStore = defineStore('metricGraph', () => {
         const metricNewStore = await store.getMetrics()
         const {errorText, metric} = await store.validateMetric(metricNewStore)
         metricsStoreGraph.value = metric
-        dateStoreGraph.value = Array.from(store.getMetricDate(metricsStoreGraph.value))
+        dateStoreGraph.value = store.getMetricDate(metricsStoreGraph.value)
         chartData.value.labels = dateStoreGraph.value.map((item) => item.slice(5))
         chartData.value.datasets[0].data = getGraphDataAllUser(dateStoreGraph.value, metricsStoreGraph.value)
         chartData.value.datasets[1].data = getGraphDataNewUser(dateStoreGraph.value, metricsStoreGraph.value)
@@ -49,7 +49,7 @@ export const useMetricGraphStore = defineStore('metricGraph', () => {
 
     async function createChartDevice() {
         metricsStoreGraph.value = await store.getMetrics()
-        dateStoreGraph.value = Array.from(store.getMetricDate(metricsStoreGraph.value))
+        dateStoreGraph.value = store.getMetricDate(metricsStoreGraph.value)
         chartData.value = {
             labels: dateStoreGraph.value.map((item) => item.slice(5)),
             datasets: [
@@ -89,7 +89,7 @@ export const useMetricGraphStore = defineStore('metricGraph', () => {
         const metricNewStore = await store.getMetrics()
         const {errorText, metric} = await store.validateMetric(metricNewStore)
         metricsStoreGraph.value = metric
-        dateStoreGraph.value = Array.from(store.getMetricDate(metricsStoreGraph.value))
+        dateStoreGraph.value = store.getMetricDate(metricsStoreGraph.value)
         chartData.value.labels = dateStoreGraph.value.map((item) => item.slice(5))
         chartData.value.datasets[0].data = getGraphDataAllUser(dateStoreGraph.value, metricsStoreGraph.value)
         chartData.value.datasets[1].data = getGraphDataDevice(dateStoreGraph.value, metricsStoreGraph.value, 'PC')
